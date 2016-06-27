@@ -21,6 +21,7 @@
 @property (strong, nonatomic) AVCaptureDeviceInput *audioDeviceInput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@property (strong, nonatomic) UITapGestureRecognizer *doubleTapGesture;
 @property (strong, nonatomic) CALayer *focusBoxLayer;
 @property (strong, nonatomic) CAAnimation *focusBoxAnimation;
 @property (strong, nonatomic) AVCaptureMovieFileOutput *movieFileOutput;
@@ -94,11 +95,17 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
     self.preview.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.preview];
     
+    // double tap to toggle camera
+    self.doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePosition)];
+    self.doubleTapGesture.numberOfTapsRequired = 2;
+    [self.preview addGestureRecognizer:self.doubleTapGesture];
+    
     // tap to focus
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(previewTapped:)];
     self.tapGesture.numberOfTapsRequired = 1;
     [self.tapGesture setDelaysTouchesEnded:NO];
     [self.preview addGestureRecognizer:self.tapGesture];
+    [self.tapGesture requireGestureRecognizerToFail:self.doubleTapGesture];
     
     //pinch to zoom
     if (_zoomingEnabled) {
