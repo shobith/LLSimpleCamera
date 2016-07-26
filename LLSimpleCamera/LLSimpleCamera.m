@@ -297,6 +297,17 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
     self.session = nil;
 }
 
+- (void)resume
+{
+    if (self.session) {
+        [self.session startRunning];
+    }
+}
+
+- (void)suspend
+{
+    [self.session stopRunning];
+}
 
 #pragma mark - Image Capture
 

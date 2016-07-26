@@ -148,6 +148,15 @@ typedef enum : NSUInteger {
  */
 - (void)stop;
 
+/**
+ * Suspends the running camera session (without teardown).
+ */
+- (void)suspend;
+
+/**
+ * Resume suspended session.
+ */
+- (void)resume;
 
 /**
  * Capture an image.
